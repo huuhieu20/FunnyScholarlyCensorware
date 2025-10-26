@@ -1,58 +1,39 @@
 import streamlit as st
 import pandas as pd
 
-st.title("📊 Biểu đồ kim tự tháp dân số (Population Pyramid)")
+st.title("🟠 Biểu đồ tròn tạo hình kim tự tháp bằng Vega-Lite")
 
-data = pd.read_csv("pyramid.csv")
+# Dữ liệu mô phỏng
+data = pd.DataFrame({
+    "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
+    "value": [60, 15, 25],
+    "order": [1, 2, 3]
+})
 
-st.subheader("Dữ liệu gốc")
-st.write(data)
-
-data["Population_plot"] = data.apply(
-    lambda row: -row["Population"] if row["Gender"] == "Male" else row["Population"], axis=1
-)
-
-st.subheader("Biểu đồ kim tự tháp dân số")
-
+# Cấu hình biểu đồ
 chart = {
-    "data": {"values": data.to_dict(orient="records")},
-    "mark": "bar",
+    "mark": {"type": "arc"},
     "encoding": {
-        "y": {
-            "field": "Age",
-            "type": "ordinal",
-            "sort": "ascending",
-            "axis": {"title": "Nhóm tuổi"}
-        },
-        "x": {
-            "field": "Population_plot",
+        "theta": {
+            "field": "value",
             "type": "quantitative",
-            "axis": {"title": "Dân số"},
+            "scale": {"range": [2.35619449, 8.639379797]}
         },
         "color": {
-            "field": "Gender",
+            "field": "category",
             "type": "nominal",
-            "scale": {"range": ["#1f77b4", "#ff7f0e"]},
-            "legend": {"title": "Giới tính"},
+            "scale": {
+                "domain": ["Bầu trời", "Mặt tối", "Mặt sáng"],
+                "range": ["#416D9D", "#674028", "#DEAC58"]
+            },
+            "legend": {
+                "orient": "right",
+                "title": "Chú thích màu sắc"
+            }
         },
-        "tooltip": [
-            {"field": "Gender", "type": "nominal", "title": "Giới tính"},
-            {"field": "Age", "type": "ordinal", "title": "Độ tuổi"},
-            {"field": "Population", "type": "quantitative", "title": "Dân số"},
-        ],
-    },
+        "order": {"field": "order"}
+    }
 }
 
-st.vega_lite_chart(chart, use_container_width=True)
-
-st.markdown("""
-### 🧩 Giải thích các phần:
-- import streamlit, pandas → dùng để đọc file và hiển thị web.
-- pd.read_csv("pyramid.csv") → đọc dữ liệu từ file.
-- lambda row: -row["Population"] if Gender == "Male" → tạo cột dân số âm cho nam.
-- st.vega_lite_chart() → vẽ biểu đồ Vega-Lite trong Streamlit.
-- mark = "bar" → biểu đồ cột.
-- field → trường dữ liệu (Age, Gender, Population).
-- type → kiểu dữ liệu (quantitative, ordinal, nominal).
-- color → phân biệt giới tính.
-""")
+# Hiển thị biểu đồ
+st.vega_lite_chart(data, chart, use_container_width=True)
