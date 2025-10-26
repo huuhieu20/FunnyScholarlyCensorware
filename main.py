@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
+import math
 
-# Cấu hình giao diện trang
 st.set_page_config(page_title="Biểu đồ tròn kim tự tháp", layout="wide")
 
-# Tiêu đề
 st.markdown(
     "<h1 style='text-align:center;'>🟠 Biểu đồ tròn tạo hình kim tự tháp</h1>",
     unsafe_allow_html=True
@@ -14,17 +13,21 @@ st.markdown(
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
     "value": [80, 10, 15],
-    "order": [2, 2, 2]
+    "order": [1, 2, 3]
 })
 
-# Cấu hình biểu đồ Vega-Lite (đã thay thế phần code trong ảnh)
+# Biểu đồ Vega-Lite xoay hướng xuống 6h
 chart = {
-    "config": {
-        "background": "#ffffff"  # Nền trắng
-    },
+    "config": {"background": "#ffffff"},
     "mark": {"type": "arc", "outerRadius": 150, "innerRadius": 0},
     "encoding": {
-        "theta": {"field": "value", "type": "quantitative"},
+        "theta": {
+            "field": "value",
+            "type": "quantitative",
+            # Xoay biểu đồ xuống hướng 6 giờ
+            "startAngle": math.pi,
+            "endAngle": 3 * math.pi
+        },
         "color": {
             "field": "category",
             "type": "nominal",
@@ -38,5 +41,4 @@ chart = {
     }
 }
 
-# Hiển thị biểu đồ
 st.vega_lite_chart(data, chart, use_container_width=True)
