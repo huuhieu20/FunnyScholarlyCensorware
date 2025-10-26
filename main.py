@@ -12,7 +12,7 @@ st.markdown(
 # Dữ liệu
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-    "value": [60, 15, 25],
+    "value": [80, 10, 15],
     "order": [1, 2, 3]
 })
 
@@ -24,7 +24,7 @@ chart = {
             "field": "value",
             "type": "quantitative",
             # ⚙️ Xoay hướng 6h bằng cách đổi khoảng góc
-            "scale": {"range": [math.pi / 2, (5 * math.pi) / 2]}
+            "scale": {"range": [(5 * math.pi) / 2, math.pi / 2]}
         },
         "color": {
             "field": "category",
