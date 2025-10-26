@@ -13,7 +13,7 @@ st.markdown(
 # Dữ liệu cho biểu đồ
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-    "value": [70, 10, 20],
+    "value": [80, 5, 10],
     "order": [1, 2, 3]
 })
 
