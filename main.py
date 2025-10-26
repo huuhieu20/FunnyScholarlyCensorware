@@ -14,7 +14,7 @@ st.markdown(
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
     "value": [80, 10, 15],
-    "order": [1, 2, 3]
+    "order": [3, 2, 1]
 })
 
 # Cấu hình biểu đồ Vega-Lite (đã thay thế phần code trong ảnh)
@@ -22,7 +22,7 @@ chart = {
     "config": {
         "background": "#ffffff"  # Nền trắng
     },
-    "mark": {"type": "arc", "outerRadius": 10, "innerRadius": 0},
+    "mark": {"type": "arc", "outerRadius": 150, "innerRadius": 0},
     "encoding": {
         "theta": {"field": "value", "type": "quantitative"},
         "color": {
