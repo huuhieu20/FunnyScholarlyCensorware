@@ -16,15 +16,20 @@ data = pd.DataFrame({
     "order": [1, 3, 2]
 })
 
-# Cấu hình biểu đồ
+# Đáy hướng 6h và nghiêng nhẹ sang trái (7h)
 chart = {
     "mark": {"type": "arc", "outerRadius": 150},
     "encoding": {
         "theta": {
             "field": "value",
             "type": "quantitative",
-            # ⚙️ Xoay hướng 6h bằng cách đổi khoảng góc
-            "scale": {"range": [(5 * math.pi) / 2, math.pi / 2]}
+            "scale": {
+                # Xoay trái ~22.5° (π/8)
+                "range": [
+                    (5 * math.pi) / 2 - math.pi / 8,
+                    math.pi / 2 - math.pi / 8
+                ]
+            }
         },
         "color": {
             "field": "category",
@@ -32,12 +37,9 @@ chart = {
             "scale": {
                 "domain": ["Bầu trời", "Mặt tối", "Mặt sáng"],
                 "range": ["#416D9D", "#674028", "#DEAC58"]
-            },
-            "legend": {"orient": "right", "title": "Chú thích màu sắc"}
-        },
-        "order": {"field": "order"}
-    },
-    "config": {"background": "#ffffff"}
+            }
+        }
+    }
 }
 
 st.vega_lite_chart(data, chart, use_container_width=True)
