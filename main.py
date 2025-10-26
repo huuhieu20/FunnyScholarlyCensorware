@@ -14,7 +14,7 @@ st.markdown(
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
     "value": [80, 10, 15],
-    "order": [3, 2, 1]
+    "order": [2, 2, 2]
 })
 
 # Cấu hình biểu đồ Vega-Lite (đã thay thế phần code trong ảnh)
