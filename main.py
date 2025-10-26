@@ -1,47 +1,58 @@
 import streamlit as st
+import pandas as pd
 
-# Hàm chuyển link shorts -> watch
-def fix_youtube_url(url: str) -> str:
-    if "youtube.com/shorts/" in url:
-        video_id = url.split("/")[-1].split("?")[0]
-        return f"https://www.youtube.com/watch?v={video_id}"
-    return url
+st.title("📊 Biểu đồ kim tự tháp dân số (Population Pyramid)")
 
-st.title("📚 Thư viện động vật")
+data = pd.read_csv("pyramid.csv")
 
-col1, col2, col3, col4, col5 = st.columns(5)
+st.subheader("Dữ liệu gốc")
+st.write(data)
 
-with col1:
-    if st.button("🐶 Chó"):
-        st.header("Thông tin về Chó")
-        st.image("https://tinhocnews.com/wp-content/uploads/2024/08/con-cho-vector-2.jpg", caption="Chó")
-        st.audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
-        st.video(fix_youtube_url("https://www.youtube.com/shorts/ZZe64YdYZtc"))
+data["Population_plot"] = data.apply(
+    lambda row: -row["Population"] if row["Gender"] == "Male" else row["Population"], axis=1
+)
 
-with col2:
-    if st.button("🐱 Mèo"):
-        st.header("Thông tin về Mèo")
-        st.image("https://life.thanhcong.vn/wp-content/uploads/2023/01/con-vat-yeu-thich-con-meo-1024x576.jpg", caption="Mèo")
-        st.audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3")
-        st.video(fix_youtube_url("https://www.youtube.com/shorts/wSmXeHBOX0U"))
+st.subheader("Biểu đồ kim tự tháp dân số")
 
-with col3:
-    if st.button("🦁 Sư tử"):
-        st.header("Thông tin về Sư tử")
-        st.image("https://upload.wikimedia.org/wikipedia/commons/6/65/S%C6%B0_t%E1%BB%AD.jpg", caption="Sư tử")
-        st.audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3")
-        st.video(fix_youtube_url("https://www.youtube.com/shorts/UMG6gdx_XlI"))
+chart = {
+    "data": {"values": data.to_dict(orient="records")},
+    "mark": "bar",
+    "encoding": {
+        "y": {
+            "field": "Age",
+            "type": "ordinal",
+            "sort": "ascending",
+            "axis": {"title": "Nhóm tuổi"}
+        },
+        "x": {
+            "field": "Population_plot",
+            "type": "quantitative",
+            "axis": {"title": "Dân số"},
+        },
+        "color": {
+            "field": "Gender",
+            "type": "nominal",
+            "scale": {"range": ["#1f77b4", "#ff7f0e"]},
+            "legend": {"title": "Giới tính"},
+        },
+        "tooltip": [
+            {"field": "Gender", "type": "nominal", "title": "Giới tính"},
+            {"field": "Age", "type": "ordinal", "title": "Độ tuổi"},
+            {"field": "Population", "type": "quantitative", "title": "Dân số"},
+        ],
+    },
+}
 
-with col4:
-    if st.button("🐼 Gấu trúc"):
-        st.header("Thông tin về Gấu trúc")
-        st.image("https://bhd.1cdn.vn/2025/05/07/gau-truc-a-h-1.jpg", caption="Gấu trúc")
-        st.audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3")
-        st.video(fix_youtube_url("https://www.youtube.com/shorts/keaqxclw8-Y"))
+st.vega_lite_chart(chart, use_container_width=True)
 
-with col5:
-    if st.button("🐧 Chim cánh cụt"):
-        st.header("Thông tin về Chim cánh cụt")
-        st.image("https://cdn.kienthuc.net.vn/images/9844b981f036879f9b909128e32501aef24648917069dfdccd781d6f102a20d56c47a17730bdff205843a51e1db26111/canhh-5.jpg", caption="Chim cánh cụt")
-        st.audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3")
-        st.video(fix_youtube_url("https://www.youtube.com/shorts/8L6NFy09xTI"))
+st.markdown("""
+### 🧩 Giải thích các phần:
+- import streamlit, pandas → dùng để đọc file và hiển thị web.
+- pd.read_csv("pyramid.csv") → đọc dữ liệu từ file.
+- lambda row: -row["Population"] if Gender == "Male" → tạo cột dân số âm cho nam.
+- st.vega_lite_chart() → vẽ biểu đồ Vega-Lite trong Streamlit.
+- mark = "bar" → biểu đồ cột.
+- field → trường dữ liệu (Age, Gender, Population).
+- type → kiểu dữ liệu (quantitative, ordinal, nominal).
+- color → phân biệt giới tính.
+""")
