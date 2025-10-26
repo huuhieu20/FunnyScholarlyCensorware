@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import math
 
+# Cấu hình trang
 st.set_page_config(page_title="Biểu đồ tròn kim tự tháp", layout="wide")
 
+# Tiêu đề trang
 st.markdown(
     "<h1 style='text-align:center;'>🟠 Biểu đồ tròn tạo hình kim tự tháp</h1>",
     unsafe_allow_html=True
@@ -23,8 +25,8 @@ chart = {
         "theta": {
             "field": "value",
             "type": "quantitative",
-            # ⚙️ Xoay hướng 6h bằng cách đổi khoảng góc
-            "scale": {"range": [math.pi / 2, 5 * math.pi / 2]}
+            # Xoay biểu đồ về hướng 6h (thẳng xuống)
+            "scale": {"range": [math.pi / 2, (5 * math.pi) / 2]}
         },
         "color": {
             "field": "category",
@@ -37,8 +39,10 @@ chart = {
         },
         "order": {"field": "order"}
     },
-    "config": {"background": "#ffffff"}
+    "config": {"background": "#ffffff"}  # Nền trắng
 }
 
+# Hiển thị biểu đồ
 st.vega_lite_chart(data, chart, use_container_width=True)
+
 
