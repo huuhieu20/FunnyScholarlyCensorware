@@ -24,7 +24,7 @@ chart = {
             "field": "value",
             "type": "quantitative",
             # ⚙️ Xoay hướng 6h bằng cách đổi khoảng góc
-            "scale": {"range": [math.pi, 3 * math.pi]}
+            "scale": {"range": [math.pi / 2, 5 * math.pi / 2]}
         },
         "color": {
             "field": "category",
