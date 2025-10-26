@@ -9,25 +9,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Dữ liệu cho biểu đồ
+# Dữ liệu
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-    "value": [80, 10, 15],
+    "value": [80, 10,15],
     "order": [1, 2, 3]
 })
 
-# Biểu đồ Vega-Lite xoay hướng xuống 6h
+# Biểu đồ xoay hướng 6 giờ
 chart = {
     "config": {"background": "#ffffff"},
     "mark": {"type": "arc", "outerRadius": 150, "innerRadius": 0},
+    # ✅ Đặt startAngle và endAngle ở đây (ngoài encoding)
+    "startAngle": math.pi,
+    "endAngle": 3 * math.pi,
     "encoding": {
-        "theta": {
-            "field": "value",
-            "type": "quantitative",
-            # Xoay biểu đồ xuống hướng 6 giờ
-            "startAngle": math.pi,
-            "endAngle": 3 * math.pi
-        },
+        "theta": {"field": "value", "type": "quantitative"},
         "color": {
             "field": "category",
             "type": "nominal",
@@ -42,3 +39,4 @@ chart = {
 }
 
 st.vega_lite_chart(data, chart, use_container_width=True)
+
