@@ -22,7 +22,7 @@ chart = {
     "config": {
         "background": "#ffffff"  # Nền trắng
     },
-    "mark": {"type": "arc", "outerRadius": 100, "innerRadius": 0},
+    "mark": {"type": "arc", "outerRadius": 10, "innerRadius": 0},
     "encoding": {
         "theta": {"field": "value", "type": "quantitative"},
         "color": {
