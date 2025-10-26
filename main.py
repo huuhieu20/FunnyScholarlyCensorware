@@ -13,7 +13,7 @@ st.markdown(
 # Dữ liệu cho biểu đồ
 data = pd.DataFrame({
     "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-    "value": [80, 5, 10],
+    "value": [80, 10, 15],
     "order": [1, 2, 3]
 })
 
@@ -22,7 +22,7 @@ chart = {
     "config": {
         "background": "#ffffff"  # Nền trắng
     },
-    "mark": {"type": "arc", "outerRadius": 150, "innerRadius": 0},
+    "mark": {"type": "arc", "outerRadius": 100, "innerRadius": 0},
     "encoding": {
         "theta": {"field": "value", "type": "quantitative"},
         "color": {
