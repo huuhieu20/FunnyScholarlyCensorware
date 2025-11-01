@@ -1,46 +1,30 @@
 import streamlit as st
 import pandas as pd
-import math
+import altair as alt  # Vega-Lite được tích hợp qua thư viện Altair
 
-st.set_page_config(page_title="Biểu đồ tròn kim tự tháp", layout="wide")
+# B1: Khai báo thư viện Streamlit và Pandas (đã làm ở trên)
 
-st.markdown(
-    "<h1 style='text-align:center;'>🟠 Biểu đồ tròn tạo hình kim tự tháp</h1>",
-    unsafe_allow_html=True
+# B2: Đọc file CSV
+df = pd.read_csv("score.csv")  # đổi tên file đúng với file bạn có
+
+# Hiển thị dữ liệu
+st.write("📊 Dữ liệu gốc:")
+st.dataframe(df)
+
+# B3: Chuyển dữ liệu sang dataframe (đã là DataFrame)
+# Nếu cần, có thể xử lý cột hoặc đổi kiểu dữ liệu tại đây
+
+# B4: Vẽ biểu đồ cột
+chart = alt.Chart(df).mark_bar().encode(
+    x=alt.X(df.columns[0], title="Tên cột X"),
+    y=alt.Y(df.columns[1], title="Giá trị"),
+    color=alt.Color(df.columns[0], legend=None)
+).properties(
+    title="Biểu đồ cột từ file score.csv",
+    width=600,
+    height=400
 )
 
-# Dữ liệu
-data = pd.DataFrame({
-    "category": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-    "value": [80, 10, 15],
-    "order": [1, 3, 2]
-})
+st.altair_chart(chart, use_container_width=True)
 
-# Đáy hướng 6h và nghiêng nhẹ sang trái (7h)
-chart = {
-    "mark": {"type": "arc", "outerRadius": 150},
-    "encoding": {
-        "theta": {
-            "field": "value",
-            "type": "quantitative",
-            "scale": {
-                # Xoay trái ~22.5° (π/8)
-                "range": [
-                    (5 * math.pi) / 2 - math.pi / 8,
-                    math.pi / 2 - math.pi / 8
-                ]
-            }
-        },
-        "color": {
-            "field": "category",
-            "type": "nominal",
-            "scale": {
-                "domain": ["Bầu trời", "Mặt tối", "Mặt sáng"],
-                "range": ["#416D9D", "#674028", "#DEAC58"]
-            }
-        }
-    }
-}
-
-st.vega_lite_chart(data, chart, use_container_width=True)
 
