@@ -1,24 +1,21 @@
 import streamlit as st
 import pandas as pd
-import altair as alt  # Vega-Lite thông qua Altair
+import altair as alt
 
-# B1: Khai báo thư viện Streamlit và Pandas
-st.title("📊 Biểu đồ cột từ file score.csv")
+st.title("📊 Biểu đồ cột đứng từ file score.csv")
 
-# B2: Đọc file CSV
+# Đọc dữ liệu
 df = pd.read_csv("score.csv")
-
-# Hiển thị dữ liệu
-st.write("### Dữ liệu gốc")
+st.write("### Dữ liệu gốc:")
 st.dataframe(df)
 
-# B3: Dùng dataframe làm dữ liệu cho biểu đồ
-x_col = st.selectbox("Chọn cột cho trục X:", df.columns)
-y_col = st.selectbox("Chọn cột cho trục Y:", df.columns)
+# Chọn trục X và Y
+x_col = st.selectbox("Chọn cột trục X:", df.columns)
+y_col = st.selectbox("Chọn cột trục Y:", df.columns)
 
-# B4: Vẽ biểu đồ cột bằng Vega-Lite (Altair)
+# Biểu đồ cột đứng
 chart = alt.Chart(df).mark_bar().encode(
-    x=alt.X(x_col, title=x_col),
+    x=alt.X(f"{x_col}:O", title=x_col),  # ":O" = dạng phân loại → cột đứng
     y=alt.Y(y_col, title=y_col),
     color=alt.Color(x_col, legend=None)
 ).properties(
