@@ -2,27 +2,26 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-st.title("📊 Biểu đồ cột đứng từ file score.csv")
+st.title("📊 Biểu đồ cột đứng: Scores vs Hours")
 
-# Đọc dữ liệu
+# B1: Đọc dữ liệu từ file score.csv
 df = pd.read_csv("score.csv")
+
+# Hiển thị dữ liệu
 st.write("### Dữ liệu gốc:")
 st.dataframe(df)
 
-# Chọn trục X và Y
-x_col = st.selectbox("Chọn cột trục X:", df.columns)
-y_col = st.selectbox("Chọn cột trục Y:", df.columns)
-
-# Biểu đồ cột đứng
+# B2: Vẽ biểu đồ cột đứng
 chart = alt.Chart(df).mark_bar().encode(
-    x=alt.X(f"{x_col}:O", title=x_col),  # ":O" = dạng phân loại → cột đứng
-    y=alt.Y(y_col, title=y_col),
-    color=alt.Color(x_col, legend=None)
+    x=alt.X("Scores:O", title="Scores"),   # trục X là dạng danh mục
+    y=alt.Y("Hours", title="Hours"),       # trục Y là số giờ
+    color=alt.Color("Scores", legend=None)
 ).properties(
-    title=f"Biểu đồ cột: {x_col} vs {y_col}",
+    title="Biểu đồ cột: Scores vs Hours",
     width=600,
     height=400
 )
 
 st.altair_chart(chart, use_container_width=True)
+
 
