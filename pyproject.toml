@@ -1,12 +1,16 @@
-[project]
+[tool.poetry]
 name = "repl-nix-workspace"
 version = "0.1.0"
 description = "Add your description here"
-requires-python = ">=3.11"
+authors = []
+
+[tool.poetry.dependencies]
+python = ">=3.11"
 matplotlib = "*"
 openpyxl = "*"
-dependencies = [
-    "matplotlib>=3.10.7",
-    "pandas>=2.3.1",
-    "streamlit>=1.48.1",
-]
+pandas = "*"
+streamlit = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
